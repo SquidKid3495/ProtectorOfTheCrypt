@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ad2d6f3859d1dcf4fa78f8100e476a51, type: 3}
+  m_Name: ExampleTower
+  m_EditorClassIdentifier: 
+  ImpactType: {fileID: 11400000, guid: 1963707f99ba86549a01731fb79af9f9, type: 2}
+  Type: 0
+  Name: ExampleTower
+  ModelPrefab: {fileID: 2360690859071615756, guid: 48801f54a43b751468f14ac89042136c, type: 3}
+  SpawnPoint: {x: 0, y: 0, z: 0}
+  SpawnRotation: {x: 0, y: 0, z: 0}
+  DamageConfig: {fileID: 11400000, guid: 0c70fc19507288945a94b4d21a7b4753, type: 2}
+  ProjectileConfig: {fileID: 11400000, guid: 71d520a0faa70ed4e8a2928085828f21, type: 2}
+  TrailConfig: {fileID: 11400000, guid: a4764727514c5ac49be28913666664a7, type: 2}
+  AudioConfig: {fileID: 11400000, guid: f740fac2556ad73408d6eaa7236896e1, type: 2}
+  range: 100

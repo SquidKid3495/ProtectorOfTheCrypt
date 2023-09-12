@@ -72,6 +72,7 @@ public class Enemy : MonoBehaviour
 
     private void Die(Vector3 Position)
     {
-        
+        Destroy(gameObject);
+        Destroy(this);
     }
 }

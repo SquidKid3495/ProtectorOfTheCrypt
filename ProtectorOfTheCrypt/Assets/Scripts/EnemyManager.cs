@@ -26,12 +26,10 @@ public class EnemyManager : MonoBehaviour
     {
         this.pathRoute = pathRoute;
         
-        Debug.Log(pathRoute.Count);
         for(int i = 0; i < pathRoute.Count; i++)
         {
             routeForEnemies.Add(new Vector3(pathRoute[i].x, 0.5f, pathRoute[i].y));
         }
-        Debug.Log(routeForEnemies.Count);
     }
 
     private void SpawnEnemy()
