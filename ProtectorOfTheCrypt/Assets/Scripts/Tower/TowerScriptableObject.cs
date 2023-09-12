@@ -39,7 +39,7 @@ public class TowerScriptableObject : ScriptableObject
         TrailPool = new ObjectPool<TrailRenderer>(CreateTrail);
         if(!ProjectileConfig.IsHitscan)
         {
-            BulletPool = new ObjectPool<Bullet>(CreateBullet);
+            BulletPool = new ObjectPool<Bullet>(CreateBullet) ;
         }
 
         Model = Instantiate(ModelPrefab);
