@@ -12,10 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a521215cd9606a746bb88a067a749dac, type: 3}
   m_Name: ExampleProjectileConfig
   m_EditorClassIdentifier: 
-  IsHitscan: 1
-  BulletPrefab: {fileID: 0}
-  BulletSpeed: 1
+  IsHitscan: 0
+  BulletPrefab: {fileID: 5025771909879289242, guid: 4bffa7160a5e9334198ce349f63e6304, type: 3}
+  BulletSpeed: 10
   HitMask:
     serializedVersion: 2
     m_Bits: 1
-  FireRate: 0.25
+  FireRate: 0.5
