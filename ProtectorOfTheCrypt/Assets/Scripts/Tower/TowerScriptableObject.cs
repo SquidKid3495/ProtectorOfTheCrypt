@@ -26,7 +26,7 @@ public class TowerScriptableObject : ScriptableObject
     private AudioSource ShootingAudioSource;
     private float LastShootTime;
     private ParticleSystem ShootSystem;
-    private ObjectPool<Bullet> BulletPool;
+    private ObjectPool BulletPool;
     private ObjectPool<TrailRenderer> TrailPool;
 
     public float range = 20f;
@@ -39,7 +39,7 @@ public class TowerScriptableObject : ScriptableObject
         TrailPool = new ObjectPool<TrailRenderer>(CreateTrail);
         if(!ProjectileConfig.IsHitscan)
         {
-            BulletPool = new ObjectPool<Bullet>(CreateBullet) ;
+            BulletPool = ObjectPool.CreateInstance(ProjectileConfig.BulletPrefab.GetComponent<PoolableObject>(), 10);
         }
 
         Model = Instantiate(ModelPrefab);
@@ -97,7 +97,7 @@ public class TowerScriptableObject : ScriptableObject
     
     private void DoProjectileShoot(Vector3 ShootDirection)
     {
-        Bullet bullet = BulletPool.Get();
+        Bullet bullet = BulletPool.GetObject().GetComponent<Bullet>();
         bullet.gameObject.SetActive(true);
         bullet.OnCollision += HandleBulletCollision;
         bullet.transform.position = ShootSystem.transform.position;
@@ -123,7 +123,7 @@ public class TowerScriptableObject : ScriptableObject
         }
 
         Bullet.gameObject.SetActive(false);
-        BulletPool.Release(Bullet);
+        BulletPool.ReturnObjectToPool(Bullet.GetComponent<PoolableObject>());
 
         if(Collision != null)
         {

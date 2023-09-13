@@ -20,7 +20,7 @@ public class Bullet : MonoBehaviour
         private set;
     }
     [SerializeField]
-    private float DelayedDisableTime = 2f;
+    private float DelayedDisableTime = 10f;
 
     public delegate void CollisionEvent(Bullet Bullet, Collision Collision);
     public event CollisionEvent OnCollision;
@@ -44,8 +44,7 @@ public class Bullet : MonoBehaviour
                 transform.position += direction.normalized * speed * Time.deltaTime;
             }
             
-        }
-        
+        } 
     }
 
     public void Spawn(float Speed, Transform Target)
@@ -70,6 +69,7 @@ public class Bullet : MonoBehaviour
 
     private void OnDisable()
     {
+        Debug.Log("BulletDisabled");
         StopAllCoroutines();
         Rigidbody.velocity = Vector3.zero;
         Rigidbody.angularVelocity = Vector3.zero;

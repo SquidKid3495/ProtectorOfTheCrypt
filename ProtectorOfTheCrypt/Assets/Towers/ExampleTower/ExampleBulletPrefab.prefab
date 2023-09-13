@@ -9,11 +9,12 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6024718081308453047}
+  - component: {fileID: 5025771909879289242}
+  - component: {fileID: -4055727626121207446}
   - component: {fileID: 147491077808287919}
   - component: {fileID: 4981014808448455310}
   - component: {fileID: 4408081963034399114}
   - component: {fileID: -8799925978683061845}
-  - component: {fileID: 5025771909879289242}
   m_Layer: 0
   m_Name: ExampleBulletPrefab
   m_TagString: Untagged
@@ -36,6 +37,32 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5025771909879289242
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5957965637887940129}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5a388302e1e9e0d448eea417f0969cda, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <SpawnLocation>k__BackingField: {x: 0, y: 0, z: 0}
+  DelayedDisableTime: 5
+--- !u!114 &-4055727626121207446
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5957965637887940129}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7490ded0da4c4c3439b662bcfc5d0856, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!33 &147491077808287919
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -134,17 +161,3 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &5025771909879289242
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5957965637887940129}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5a388302e1e9e0d448eea417f0969cda, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  <SpawnLocation>k__BackingField: {x: 0, y: 0, z: 0}
-  DelayedDisableTime: 2
