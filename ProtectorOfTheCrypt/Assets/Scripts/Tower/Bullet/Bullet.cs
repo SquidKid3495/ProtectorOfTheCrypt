@@ -30,6 +30,7 @@ public class Bullet : MonoBehaviour
     private void Awake() 
     {
         Rigidbody = GetComponent<Rigidbody>();
+        gameObject.layer = LayerMask.NameToLayer("Projectile");
     }
 
     private void Update()

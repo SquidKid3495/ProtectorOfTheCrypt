@@ -29,7 +29,6 @@ public class EnemyHealth : MonoBehaviour, IDamageable
         float damageTaken = Damage * CompareElementTypes(DamageType);
         // Makes sure the current health is never negative
         damageTaken = Mathf.Clamp(damageTaken, 0, CurrentHealth);
-        Debug.Log("Damage: " + Damage + " Damage Taken: " + damageTaken);
         CurrentHealth -= damageTaken;
 
         if(damageTaken != 0) // Damage
@@ -50,7 +49,6 @@ public class EnemyHealth : MonoBehaviour, IDamageable
         {
             if(element == DamageType)
             {
-                Debug.Log("Weakness: " + element.ToString() + " Damage Type: " + DamageType + " Damage Multiplier: " + _damageMultiplier);
                 return _damageMultiplier;
             }
         }
