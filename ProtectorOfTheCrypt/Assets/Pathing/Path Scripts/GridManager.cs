@@ -8,10 +8,12 @@ public class GridManager : MonoBehaviour
     public int gridHeight = 8;
     public int minPathLength = 15;
 
+    /// <Summary> Enemy Manager relays uses the information from the grid and gives it to the enemies</Summary>
     private EnemyManager enemyManager;
 
-
+    /// <summary> Grid Cells, set in inspector, used to place paths based on the path grid</summary>
     public GridCellScriptableObject[] pathCellObjects;
+    /// <summary> Grid Cells, set in inspector, fills empty space that is not used by the path grid </summary>
     public GridCellScriptableObject[] sceneryCellObjects;
 
     private PathGenerator pathGenerator;
@@ -19,9 +21,6 @@ public class GridManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        Vector3 targetPos = Camera.main.transform.position;
-        targetPos = new Vector3(gridWidth/2, 3.5f, -5.5f);
-        Camera.main.transform.position = targetPos;
         pathGenerator = new PathGenerator(gridWidth, gridHeight);
         enemyManager = GetComponent<EnemyManager>();
 
@@ -38,6 +37,30 @@ public class GridManager : MonoBehaviour
         }
         
         
+
+        StartCoroutine(CreateGrid(pathCells));
+    }
+
+    private void Generate()
+    {
+        if(transform.childCount > 0)
+        {
+            foreach (Transform child in transform) 
+            {
+                Destroy(child);
+            }
+        }
+        List<Vector2Int> pathCells = pathGenerator.GeneratePath();
+        int pathSize = pathCells.Count;
+        while (pathGenerator.GenerateCrossroads())
+            pathSize = pathCells.Count;
+
+        while (pathSize < minPathLength)
+        {
+            pathCells = pathGenerator.GeneratePath();
+            while (pathGenerator.GenerateCrossroads())
+                pathSize = pathCells.Count;
+        }
 
         StartCoroutine(CreateGrid(pathCells));
     }

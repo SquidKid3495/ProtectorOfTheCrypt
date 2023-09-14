@@ -4,10 +4,18 @@ using UnityEngine;
 
 public class PathGenerator
 {
+    /// <summary>
+    /// The area in which the path cells may be placed
+    /// </summary>
     private int width,height;
     private List<Vector2Int> pathCells;
     private List<Vector2Int> route;
 
+    /// <summary>
+    /// Constructor Function that creates a new path generator and sets its height and width. PathGenerator is NOT a Monobehavior
+    /// </summary>
+    /// <param name="width"></param>
+    /// <param name="height"></param>
     public PathGenerator(int width, int height)
     {
         this.width = width;
@@ -20,23 +28,20 @@ public class PathGenerator
 
         int y = (int)(height / 2);
         int x = 0;
-        /*
 
-        for(int x = 0; x < width; x++)
-        {
-            pathCells.Add(new Vector2Int(x,y));
-        }*/
-
+        // while the x value of the current path vector2int is less than the max width of the path
         while (x < width)
         {
+            // Adds a the current Vector2Int path position
             pathCells.Add(new Vector2Int(x,y));
 
             bool validMove = false;
 
+            // Picks a new position to move to, either up down left or right one position
             while(!validMove)
             {
                 int move = Random.Range(0, 3);
-
+                // These prevent the path from going back on itself (if last time it went right, it cant go left this time)
                 if(move == 0 || x % 2 == 0 && CellIsEmpty(x+1, y) || x > (width - 2))
                 {
                     x++;
@@ -66,6 +71,7 @@ public class PathGenerator
             if(pathCell.x > 3 && pathCell.x < width - 4 && pathCell.y > 2 && pathCell.y < height - 3) 
             { 
                 // This is checking in a large area around the cell in question, if all of the spaces are available, a loop can be added
+                // Its ugly, but not complicated
                 if(CellIsEmpty(pathCell.x, pathCell.y+3) && CellIsEmpty(pathCell.x+1, pathCell.y+3) && CellIsEmpty(pathCell.x+2, pathCell.y+3)
                 && CellIsEmpty(pathCell.x-1, pathCell.y+2) && CellIsEmpty(pathCell.x, pathCell.y+2) && CellIsEmpty(pathCell.x+1, pathCell.y+2) && CellIsEmpty(pathCell.x+2, pathCell.y+2) && CellIsEmpty(pathCell.x+3, pathCell.y+2)
                 && CellIsEmpty(pathCell.x-1, pathCell.y+1) && CellIsEmpty(pathCell.x, pathCell.y+1) && CellIsEmpty(pathCell.x+1, pathCell.y+1) && CellIsEmpty(pathCell.x+2, pathCell.y+1) && CellIsEmpty(pathCell.x+3, pathCell.y+1)
@@ -75,7 +81,7 @@ public class PathGenerator
                     pathCells.InsertRange(i + 1, new List<Vector2Int> { new Vector2Int(pathCell.x + 1, pathCell.y), new Vector2Int(pathCell.x + 2, pathCell.y), new Vector2Int(pathCell.x + 2, pathCell.y + 1), new Vector2Int(pathCell.x + 2, pathCell.y + 2), new Vector2Int(pathCell.x + 1, pathCell.y + 2), new Vector2Int(pathCell.x, pathCell.y + 2), new Vector2Int(pathCell.x, pathCell.y + 1)});
                     return true;
                 }
-
+                // Same thing, but for a loop in a different direction
                 if(CellIsEmpty(pathCell.x, pathCell.y-3) && CellIsEmpty(pathCell.x+1, pathCell.y-3) && CellIsEmpty(pathCell.x+2, pathCell.y-3)
                 && CellIsEmpty(pathCell.x-1, pathCell.y-2) && CellIsEmpty(pathCell.x, pathCell.y-2) && CellIsEmpty(pathCell.x+1, pathCell.y-2) && CellIsEmpty(pathCell.x+2, pathCell.y-2) && CellIsEmpty(pathCell.x+3, pathCell.y-2)
                 && CellIsEmpty(pathCell.x-1, pathCell.y-1) && CellIsEmpty(pathCell.x, pathCell.y-1) && CellIsEmpty(pathCell.x+1, pathCell.y-1) && CellIsEmpty(pathCell.x+2, pathCell.y-1) && CellIsEmpty(pathCell.x+3, pathCell.y-1)
@@ -89,7 +95,10 @@ public class PathGenerator
         }
         return false;
     }
-
+    /// <summary>
+    /// This creates the positions that will be used by the wave manager for enemy ai pathing.
+    /// </summary>
+    /// <returns></returns>
     public List<Vector2Int> GenerateRoute()
     {
         Vector2Int direction = Vector2Int.right;
@@ -148,6 +157,12 @@ public class PathGenerator
         return pathCells.Contains(cell);
     }
 
+    /// <summary>
+    /// Checks in four directions. It adds an int value to the returnValue if there is a path in the direction checked. The return value is used to determine what GridCell path should be placed. ie. Corner, straight, etc.
+    /// </summary>
+    /// <param name="x"></param>
+    /// <param name="y"></param>
+    /// <returns></returns>
     public int GetCellNeighborValue(int x, int y)
     {
         int returnValue = 0;
