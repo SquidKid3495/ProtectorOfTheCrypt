@@ -22,6 +22,10 @@ public class PathGenerator
         this.height = height;
     }
 
+    /// <summary>
+    /// Determines the positions of the path and returns the positions as a Vector2Int List
+    /// </summary>
+    /// <returns></returns>
     public List<Vector2Int> GeneratePath()
     {
         pathCells = new List<Vector2Int>();
@@ -63,6 +67,10 @@ public class PathGenerator
         return pathCells;
     }
 
+    /// <summary>
+    /// After the path was created, GenerateCrossroads looks at path positions and finds viable locations to add a loop to the path. This doesn't allow the loop to interect with the pre-existing path. There must be a gap between the old path and the new loop.
+    /// </summary>
+    /// <returns></returns>
     public bool GenerateCrossroads()
     {
         for(int i = 0; i < pathCells.Count; i++)

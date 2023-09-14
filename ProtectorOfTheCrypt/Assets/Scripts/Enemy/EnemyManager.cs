@@ -2,6 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Needs a makeover for the wave manager.
+/// </summary>
 public class EnemyManager : MonoBehaviour
 {
     public GameObject enemyPrefab;

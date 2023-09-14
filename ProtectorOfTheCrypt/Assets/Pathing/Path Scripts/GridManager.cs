@@ -18,38 +18,20 @@ public class GridManager : MonoBehaviour
 
     private PathGenerator pathGenerator;
 
-    // Start is called before the first frame update
     void Start()
     {
         pathGenerator = new PathGenerator(gridWidth, gridHeight);
         enemyManager = GetComponent<EnemyManager>();
 
-        List<Vector2Int> pathCells = pathGenerator.GeneratePath();
-        int pathSize = pathCells.Count;
-        while(pathGenerator.GenerateCrossroads())
-        pathSize = pathCells.Count;
-
-        while(pathSize < minPathLength)
-        {
-            pathCells = pathGenerator.GeneratePath();
-            while(pathGenerator.GenerateCrossroads())
-            pathSize = pathCells.Count;
-        }
-        
-        
-
-        StartCoroutine(CreateGrid(pathCells));
+        Generate();
     }
 
+    /// <summary>
+    /// Starts the generation and building of the path
+    /// </summary>
+    /// <param name="check"></param>
     private void Generate()
     {
-        if(transform.childCount > 0)
-        {
-            foreach (Transform child in transform) 
-            {
-                Destroy(child);
-            }
-        }
         List<Vector2Int> pathCells = pathGenerator.GeneratePath();
         int pathSize = pathCells.Count;
         while (pathGenerator.GenerateCrossroads())

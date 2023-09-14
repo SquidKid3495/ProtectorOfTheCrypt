@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-
+/// <summary>
+/// Contains information for a bullet trail.
+/// </summary>
 [CreateAssetMenu(fileName = "Trail Config", menuName = "Towers/Projectile Trail Config", order = 4)]
 public class TrailConfigurationScriptableObject : ScriptableObject 
 {

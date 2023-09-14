@@ -3,6 +3,10 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.Pool;
 
+
+/// <summary>
+/// Combines all of the Scriptable Objects necessary to create and operate a tower and handles finding and shooting at enemies.
+/// </summary>
 [CreateAssetMenu(fileName = "Tower", menuName = "Towers/Tower", order = 0)]
 public class TowerScriptableObject : ScriptableObject 
 {
@@ -36,10 +40,8 @@ public class TowerScriptableObject : ScriptableObject
         this.ActiveMonoBehaviour = ActiveMonoBehaviour;
         LastShootTime = 0;
         TrailPool = new ObjectPool<TrailRenderer>(CreateTrail);
-        if(!ProjectileConfig.IsHitscan)
-        {
-            BulletPool = ObjectPool.CreateInstance(ProjectileConfig.BulletPrefab.GetComponent<PoolableObject>(), 10);
-        }
+
+        BulletPool = ObjectPool.CreateInstance(ProjectileConfig.BulletPrefab.GetComponent<PoolableObject>(), 10);
 
         Model = Instantiate(ModelPrefab);
         Model.transform.SetParent(Parent, false);
@@ -58,6 +60,8 @@ public class TowerScriptableObject : ScriptableObject
         Destroy(this);
     }
 
+
+    #region Shooting
     public void Shoot()
     {
         if(Time.time > ProjectileConfig.FireRate + LastShootTime)
@@ -77,30 +81,20 @@ public class TowerScriptableObject : ScriptableObject
                 //AudioConfig.PlayShootingClip(ShootingAudioSource);
                 LastShootTime = Time.time;
                 ShootSystem.Play();
-                
-                if(ProjectileConfig.IsHitscan)
-                {
-                    if(shootDirection != Vector3.zero)
-                        DoHitscanShoot(shootDirection);
-                }
-                else
-                {
-                    
-                    if(shootDirection != Vector3.zero)
-                        DoProjectileShoot(shootDirection);
-                }
+                                    
+                if(shootDirection != Vector3.zero)
+                    DoProjectileShoot(shootDirection);                
             }
         }
     }
 
-    
     private void DoProjectileShoot(Vector3 ShootDirection)
     {
         Bullet bullet = BulletPool.GetObject().GetComponent<Bullet>();
         bullet.gameObject.SetActive(true);
         bullet.OnCollision += HandleBulletCollision;
         bullet.transform.position = ShootSystem.transform.position;
-        bullet.Spawn(ProjectileConfig.BulletSpeed,closestEnemy.transform);
+        bullet.Spawn(ProjectileConfig.BulletSpeed,closestEnemy.transform, ProjectileConfig.DamageType);
 
         TrailRenderer trail = TrailPool.Get();
         if(trail != null)
@@ -112,6 +106,31 @@ public class TowerScriptableObject : ScriptableObject
         }
     }
 
+    private void FindClosestEnemy(out Vector3 directionToEnemy, out bool targetInRange)
+    {
+        GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
+
+        float closestDistance = Mathf.Infinity;
+        directionToEnemy = Vector3.zero;
+        targetInRange = false;
+
+        foreach (GameObject enemy in enemies)
+        {
+            float distanceToEnemy = Vector3.Distance(ShootSystem.transform.position, enemy.transform.position);
+
+            if (distanceToEnemy < closestDistance && distanceToEnemy <= range)
+            {
+                closestEnemy = enemy;
+                closestDistance = distanceToEnemy;
+                directionToEnemy = (closestEnemy.transform.position - ShootSystem.transform.position).normalized;
+                targetInRange = true;
+            }
+        }
+        
+    }
+    #endregion
+
+    #region Projectile Impact
     private void HandleBulletCollision(Bullet Bullet, Collision Collision)
     {
         TrailRenderer trail = Bullet.GetComponentInChildren<TrailRenderer>();
@@ -149,67 +168,12 @@ public class TowerScriptableObject : ScriptableObject
 
         if(HitCollider.TryGetComponent(out IDamageable damageable))
         {
-            damageable.TakeDamage(DamageConfig.GetDamage(DistanceTraveled));
+            damageable.TakeDamage(DamageConfig.GetDamage(DistanceTraveled), ProjectileConfig.DamageType);
         }
     }
+    #endregion
 
-    private IEnumerator DelayedDisableTrail(TrailRenderer Trail)
-    {
-        yield return new WaitForSeconds(TrailConfig.Duration);
-        yield return null;
-        Trail.emitting = false;
-        Trail.gameObject.SetActive(false);
-        TrailPool.Release(Trail);
-    }
-
-    private void DoHitscanShoot(Vector3 ShootDirection)
-    {
-        if(Physics.Raycast(
-            ShootSystem.transform.position,
-            ShootDirection,
-            out RaycastHit hit,
-            float.MaxValue,
-            ProjectileConfig.HitMask))
-        {
-            ActiveMonoBehaviour.StartCoroutine(
-                PlayTrail(
-                    ShootSystem.transform.position,
-                    hit.point,
-                    hit));
-        }
-        else
-        {
-            ActiveMonoBehaviour.StartCoroutine(
-                PlayTrail(
-                    ShootSystem.transform.position,
-                    ShootSystem.transform.position + (ShootDirection * TrailConfig.MissDistance),
-                    new RaycastHit()));
-        }
-    }
-
-    private void FindClosestEnemy(out Vector3 directionToEnemy, out bool targetInRange)
-    {
-        GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
-
-        float closestDistance = Mathf.Infinity;
-        directionToEnemy = Vector3.zero;
-        targetInRange = false;
-
-        foreach (GameObject enemy in enemies)
-        {
-            float distanceToEnemy = Vector3.Distance(ShootSystem.transform.position, enemy.transform.position);
-
-            if (distanceToEnemy < closestDistance && distanceToEnemy <= range)
-            {
-                closestEnemy = enemy;
-                closestDistance = distanceToEnemy;
-                directionToEnemy = (closestEnemy.transform.position - ShootSystem.transform.position).normalized;
-                targetInRange = true;
-            }
-        }
-        
-    }
-
+    #region Trails
     private IEnumerator PlayTrail(Vector3 StartPoint, Vector3 EndPoint, RaycastHit Hit)
     {
         TrailRenderer instance = TrailPool.Get();
@@ -261,10 +225,14 @@ public class TowerScriptableObject : ScriptableObject
 
         return trail;
     }
-
-    private Bullet CreateBullet()
+    private IEnumerator DelayedDisableTrail(TrailRenderer Trail)
     {
-        return Instantiate(ProjectileConfig.BulletPrefab);
+        yield return new WaitForSeconds(TrailConfig.Duration);
+        yield return null;
+        Trail.emitting = false;
+        Trail.gameObject.SetActive(false);
+        TrailPool.Release(Trail);
     }
+    #endregion
 }
 

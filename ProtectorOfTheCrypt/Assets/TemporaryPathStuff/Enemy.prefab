@@ -145,8 +145,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1636e121597cf4e4e864f43747afdced, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _MaxHealth: 20
+  _MaxHealth: 50
   _Health: 0
+  Element: {fileID: 11400000, guid: 5d7c9fa97a03e144bba9fdddb0052050, type: 2}
+  _damageMultiplier: 10
 --- !u!135 &8417840376807328499
 SphereCollider:
   m_ObjectHideFlags: 0

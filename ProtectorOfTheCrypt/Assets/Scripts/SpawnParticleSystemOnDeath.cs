@@ -2,6 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Used with the IDamageable interface if you want to spawn particles when an enemy dies.
+/// </summary>
 [RequireComponent(typeof(IDamageable))]
 public class SpawnParticleSystemOnDeath : MonoBehaviour
 {

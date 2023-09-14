@@ -2,7 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-
+/// <summary>
+/// Responsible for moving the projectile and handeling collision. This script is set up to work with the ObjectPooling script.
+/// </summary>
 [RequireComponent(typeof(Rigidbody))]
 public class Bullet : MonoBehaviour
 {
@@ -32,6 +34,7 @@ public class Bullet : MonoBehaviour
 
     private void Update()
     {
+        // If the projectile is active: move towards the target
         if(isTracking)
         {
             if(target != null)
@@ -47,7 +50,12 @@ public class Bullet : MonoBehaviour
         } 
     }
 
-    public void Spawn(float Speed, Transform Target)
+    /// <summary>
+    /// Sets the projectile to the tower projectile spawn point and sets the target.
+    /// </summary>
+    /// <param name="Speed"></param>
+    /// <param name="Target"></param>
+    public void Spawn(float Speed, Transform Target, ElementType DamageType)
     {
         SpawnLocation = transform.position;
         speed = Speed;
@@ -56,6 +64,11 @@ public class Bullet : MonoBehaviour
         StartCoroutine(DelayedDisable(DelayedDisableTime));
     }
 
+    /// <summary>
+    /// If the projectile is active for "Time" without hitting an object: Disable it.
+    /// </summary>
+    /// <param name="Time"></param>
+    /// <returns></returns>
     private IEnumerator DelayedDisable(float Time)
     {
         yield return new WaitForSeconds(Time);
@@ -69,7 +82,6 @@ public class Bullet : MonoBehaviour
 
     private void OnDisable()
     {
-        Debug.Log("BulletDisabled");
         StopAllCoroutines();
         Rigidbody.velocity = Vector3.zero;
         Rigidbody.angularVelocity = Vector3.zero;

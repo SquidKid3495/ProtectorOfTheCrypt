@@ -2,6 +2,9 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
+/// <summary>
+/// This is currently the script that places the tower. Max will completely redo this script to better fit our style of tower placement.
+/// </summary>
 [DisallowMultipleComponent]
 public class TowerProjectileSelector : MonoBehaviour
 {

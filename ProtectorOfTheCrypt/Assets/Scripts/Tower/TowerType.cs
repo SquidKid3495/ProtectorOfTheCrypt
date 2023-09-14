@@ -1,13 +1,14 @@
-
 using UnityEngine;
 
+/// <summary>
+/// The type of damage a tower should use.
+/// </summary>
 public enum TowerType
 {
-    BasicTower,
-    LightTower,
-    HeavyTower,
-    FireTower,
-    IceTower,
-    PoisonTower
+    Basic,
+    Fire,
+    Ice,
+    Poison,
+    Explosion
 }
 
