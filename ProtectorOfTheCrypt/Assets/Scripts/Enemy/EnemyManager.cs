@@ -20,11 +20,6 @@ public class EnemyManager : MonoBehaviour
     private List<Vector3> routeForEnemies = new List<Vector3>();
     private GameObject enemyInstance;
 
-    public void SpawnWave()
-    {
-        StartCoroutine(SpawnEnemies());
-    }
-
     public void SetPathCell(List<Vector2Int> pathRoute)
     {
         this.pathRoute = pathRoute;
@@ -44,15 +39,15 @@ public class EnemyManager : MonoBehaviour
         enemyComponent.Initialize(spawnData);
     }
 
-    private IEnumerator SpawnEnemies()
-    {
-        while(numOfEnemies > 0)
-        {
-            numOfEnemies--;
-            SpawnEnemy();
-            yield return new WaitForSeconds(enemySpawnDelay);
-        }
-    }
+    //private IEnumerator SpawnEnemies()
+    //{
+    //    while(numOfEnemies > 0)
+    //    {
+    //        numOfEnemies--;
+    //        SpawnEnemy();
+    //        yield return new WaitForSeconds(enemySpawnDelay);
+    //    }
+    //}
 }
 
 public class EnemySpawnData

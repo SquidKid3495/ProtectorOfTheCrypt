@@ -8,8 +8,9 @@ public class GridManager : MonoBehaviour
     public int gridHeight = 8;
     public int minPathLength = 15;
 
-    /// <Summary> Enemy Manager relays uses the information from the grid and gives it to the enemies</Summary>
-    private EnemyManager enemyManager;
+    /// <Summary> Enemy Manager relays the information from the grid and gives it to the enemies</Summary>
+    private EnemyManager EnemyManager;
+    private WaveManager WaveManager;
 
     /// <summary> Grid Cells, set in inspector, used to place paths based on the path grid</summary>
     public GridCellScriptableObject[] pathCellObjects;
@@ -21,8 +22,8 @@ public class GridManager : MonoBehaviour
     void Start()
     {
         pathGenerator = new PathGenerator(gridWidth, gridHeight);
-        enemyManager = GetComponent<EnemyManager>();
-
+        WaveManager = GetComponent<WaveManager>();
+        
         Generate();
     }
 
@@ -51,8 +52,14 @@ public class GridManager : MonoBehaviour
     {
         yield return LayPathCells(pathCells);
         yield return LaySceneryCells();
-        enemyManager.SetPathCell(pathGenerator.GenerateRoute());
-        enemyManager.SpawnWave();
+
+        //EnemyManager.SetPathCell(pathGenerator.GenerateRoute());
+        List<Vector2Int> cellPoints = pathGenerator.GenerateRoute();
+
+        yield return new WaitForSeconds(2f);
+
+        WaveManager.EnemySpawner.SpawnPoint = new Vector3(cellPoints[0].x, 0f, cellPoints[0].y);
+        WaveManager.enabled = true;
     }
 
     private IEnumerator LayPathCells(List<Vector2Int> pathCells)
@@ -73,9 +80,9 @@ public class GridManager : MonoBehaviour
 
     private IEnumerator LaySceneryCells()
     {
-        for(int x = -8; x < gridWidth+8; x++)
+        for(int x = 0; x < gridWidth; x++)
         {
-            for(int y = -8; y < gridHeight+8; y++)
+            for(int y = 0; y < gridHeight; y++)
             {
                 if(pathGenerator.CellIsEmpty(x, y))
                 {
