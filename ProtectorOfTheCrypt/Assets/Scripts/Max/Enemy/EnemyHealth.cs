@@ -11,7 +11,7 @@ public class EnemyHealth : MonoBehaviour, IDamageable
     [SerializeField] private float _MaxHealth = 100;
     [SerializeField] private float _Health; // serialized just to see in inspector
     [SerializeField] private WeaknessScriptableObject Element;
-    [SerializeField] private float _damageMultiplier = 10f;
+    public float _damageMultiplier = 10f;
 
     public float MaxHealth { get => _MaxHealth; private set => _MaxHealth = value; }
     public float CurrentHealth { get => _Health; private set => _Health = value; }

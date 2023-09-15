@@ -57,8 +57,12 @@ public class GridManager : MonoBehaviour
         List<Vector2Int> cellPoints = pathGenerator.GenerateRoute();
 
         yield return new WaitForSeconds(2f);
-
-        WaveManager.EnemySpawner.SpawnPoint = new Vector3(cellPoints[0].x, 0f, cellPoints[0].y);
+        List<Vector3> path = new List<Vector3>();
+        foreach (Vector2Int point in cellPoints)
+        {
+            path.Add(new Vector3(point.x, 0f, point.y));
+        }
+        WaveManager.EnemySpawner.Path = path;
         WaveManager.enabled = true;
     }
 

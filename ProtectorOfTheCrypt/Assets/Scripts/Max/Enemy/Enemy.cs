@@ -54,21 +54,6 @@ public class Enemy : MonoBehaviour
         target = points[0];
         canMove = true;
     }
-    public Vector3 GetPositionAfterTime(float time)
-    {
-        Vector3 currentPosition = transform.position;
-        float distance = Vector3.Distance(currentPosition, target);
-        float timeToReachTarget = distance / (speed * Time.deltaTime);
-
-        if (time >= timeToReachTarget)
-            return target;
-
-        Vector3 direction = target - currentPosition;
-        direction.Normalize();
-        Vector3 newPosition = currentPosition + direction * (speed * Time.deltaTime * time);
-
-        return newPosition;
-    }
 
     private void Die(Vector3 Position)
     {
