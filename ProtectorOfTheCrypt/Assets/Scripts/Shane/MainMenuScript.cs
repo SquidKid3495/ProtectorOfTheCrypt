@@ -17,12 +17,12 @@ public class MainMenuScript : MonoBehaviour
 
     public void Settings()
     {
-        SceneManager.LoadScene("SettingsScene");
+
     }
 
     public void CreditsScreen()
     {
-        SceneManager.LoadScene("CreditsScene");
+
     }
 
     public void QuitGame()
