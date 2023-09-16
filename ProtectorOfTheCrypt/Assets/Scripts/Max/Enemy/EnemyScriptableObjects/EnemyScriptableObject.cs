@@ -26,11 +26,7 @@ public class EnemyScriptableObject : ScriptableObject
         Model.transform.localPosition = Path[0];
         Model.AddComponent<EnemyMovementHandler>().Initialize(this, Path, BaseSpeed);
 
-        EnemyHealth EnemyHealth = Model.AddComponent<EnemyHealth>();
-        EnemyHealth.MaxHealth = BaseHealth;
-        EnemyHealth.Element = ElementType;
-        EnemyHealth._damageMultiplier = WeaknessDamageMultiplier;
-        EnemyHealth._spawner = Spawner;
+        Model.AddComponent<EnemyHealth>().Enable(BaseHealth, ElementType, WeaknessDamageMultiplier, Spawner);
 
         return Model;
     }

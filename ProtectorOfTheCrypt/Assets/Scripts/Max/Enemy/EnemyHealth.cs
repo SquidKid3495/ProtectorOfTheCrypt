@@ -8,22 +8,24 @@ using UnityEngine;
 /// </summary>
 public class EnemyHealth : MonoBehaviour, IDamageable
 {
-    [SerializeField] private float _MaxHealth = 10;
-    [SerializeField] private float _Health; // serialized just to see in inspector
     public WeaknessScriptableObject Element;
     public float _damageMultiplier = 10f;
 
-    public float MaxHealth { get => _MaxHealth; set => _MaxHealth = value; }
-    public float CurrentHealth { get => _Health; private set => _Health = value; }
+    public float MaxHealth { get; set; }
+    [SerializeField]public float CurrentHealth { get; set; }
 
     public event IDamageable.TakeDamageEvent OnTakeDamage;
     public event IDamageable.DeathEvent OnDeath;
 
     [HideInInspector] public Spawner _spawner;
 
-    private void OnEnable() 
+    public void Enable(float maxHealth, WeaknessScriptableObject element, float damageMultiplier, Spawner spawner) 
     {
+        MaxHealth = maxHealth;
         CurrentHealth = MaxHealth;
+        Element = element;
+        _damageMultiplier = damageMultiplier;
+        _spawner = spawner;
     }
 
     public void TakeDamage(float Damage, ElementType DamageType)
