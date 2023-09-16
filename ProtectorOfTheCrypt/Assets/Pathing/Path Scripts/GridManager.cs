@@ -9,7 +9,6 @@ public class GridManager : MonoBehaviour
     public int minPathLength = 15;
 
     /// <Summary> Enemy Manager relays the information from the grid and gives it to the enemies</Summary>
-    private EnemyManager EnemyManager;
     private WaveManager WaveManager;
 
     /// <summary> Grid Cells, set in inspector, used to place paths based on the path grid</summary>
@@ -93,6 +92,7 @@ public class GridManager : MonoBehaviour
                     int randomCellIndex = Random.Range(0, sceneryCellObjects.Length);
                     GameObject sceneryTileCell = Instantiate(sceneryCellObjects[randomCellIndex].cellPrefab, new Vector3(x, 0f, y), Quaternion.identity);
                     sceneryTileCell.transform.parent = transform;
+                    sceneryTileCell.transform.GetChild(0).gameObject.layer = LayerMask.NameToLayer("Enviornment");
                     yield return null;
                 }
             }

@@ -37,7 +37,7 @@ public class TowerProjectileSelector : MonoBehaviour
 
         TowerScriptableObject newTowerInstance = CreateNewTowerInstance(tower);
         ActiveTower = newTowerInstance;
-        newTowerInstance.Spawn(TowerParent, this);
+        newTowerInstance.Spawn();
     }
 
     private TowerScriptableObject CreateNewTowerInstance(TowerScriptableObject originalTower)

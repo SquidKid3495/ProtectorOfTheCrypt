@@ -35,18 +35,22 @@ public class TowerScriptableObject : ScriptableObject
     public float range = 20f;
     private GameObject closestEnemy;
     
-    public void Spawn(Transform Parent, MonoBehaviour ActiveMonoBehaviour)
+    public GameObject SpawnModel(MonoBehaviour ActiveMonoBehaviour)
     {
         this.ActiveMonoBehaviour = ActiveMonoBehaviour;
+
+        Model = Instantiate(ModelPrefab);
+        Model.transform.localPosition = SpawnPoint;
+        Model.transform.localRotation = Quaternion.Euler(SpawnRotation);
+
+        return Model;
+    }
+    public void Spawn()
+    {
         LastShootTime = 0;
         TrailPool = new ObjectPool<TrailRenderer>(CreateTrail);
 
         BulletPool = ObjectPool.CreateInstance(ProjectileConfig.BulletPrefab.GetComponent<PoolableObject>(), 10);
-
-        Model = Instantiate(ModelPrefab);
-        Model.transform.SetParent(Parent, false);
-        Model.transform.localPosition = SpawnPoint;
-        Model.transform.localRotation = Quaternion.Euler(SpawnRotation);
 
         ProjectileSpawnpoint = Model.transform.Find("ProjectileSpawnpoint").gameObject;
 
@@ -96,14 +100,14 @@ public class TowerScriptableObject : ScriptableObject
         bullet.transform.position = ShootSystem.transform.position;
         bullet.Spawn(ProjectileConfig.BulletSpeed,closestEnemy.transform, ProjectileConfig.DamageType);
 
-        TrailRenderer trail = TrailPool.Get();
+        /*TrailRenderer trail = TrailPool.Get();
         if(trail != null)
         {
             trail.transform.SetParent(bullet.transform, false);
             trail.transform.localPosition = Vector3.zero;
             trail.emitting = true;
             trail.gameObject.SetActive(true);
-        }
+        }*/
     }
 
     private void FindClosestEnemy(out Vector3 directionToEnemy, out bool targetInRange)
