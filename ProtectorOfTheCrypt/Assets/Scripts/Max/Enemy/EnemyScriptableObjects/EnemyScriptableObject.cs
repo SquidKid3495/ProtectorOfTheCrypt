@@ -15,45 +15,23 @@ public class EnemyScriptableObject : ScriptableObject
     private bool CanMove = true;
     private MonoBehaviour ActiveMonoBehaviour;
     private GameObject Model;
-    private EnemyHealth EnemyHealth;
     private List<Vector3> Path = new List<Vector3>();
-    private Vector3 Target;
-    private int WaypointIndex = 1;
 
-    public void Spawn(Transform Parent, MonoBehaviour ActiveMonoBehaviour, List<Vector3> Path)
+    public GameObject Spawn(Transform Parent, MonoBehaviour ActiveMonoBehaviour, List<Vector3> Path, Spawner Spawner)
     {
         this.ActiveMonoBehaviour = ActiveMonoBehaviour;
         this.Path = Path;
 
         Model = Instantiate(ModelPrefab);
-        Target = Path[0];
-        Model.transform.localPosition = Target;
+        Model.transform.localPosition = Path[0];
+        Model.AddComponent<EnemyMovementHandler>().Initialize(this, Path, BaseSpeed);
 
-        EnemyHealth = Model.AddComponent<EnemyHealth>();
+        EnemyHealth EnemyHealth = Model.AddComponent<EnemyHealth>();
+        EnemyHealth.MaxHealth = BaseHealth;
+        EnemyHealth.Element = ElementType;
         EnemyHealth._damageMultiplier = WeaknessDamageMultiplier;
-    }
+        EnemyHealth._spawner = Spawner;
 
-    public void Move()
-    {
-        if (CanMove)
-        {
-            Vector3 dir = Target - Model.transform.position;
-            dir.Normalize();
-
-            Model.transform.Translate(dir * BaseSpeed * Time.deltaTime);
-
-            if (Vector3.Distance(Model.transform.position, Target) <= 0.4f)
-            {
-                WaypointIndex++;
-                if (WaypointIndex >= Path.Count)
-                {
-                    // Reached the last waypoint, stop moving
-                    CanMove = false;
-                    return;
-                }
-
-                Target = Path[WaypointIndex];
-            }
-        }
+        return Model;
     }
 }

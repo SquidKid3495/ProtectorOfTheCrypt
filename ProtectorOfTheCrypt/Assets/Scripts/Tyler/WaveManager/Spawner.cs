@@ -10,7 +10,7 @@ public class Spawner : MonoBehaviour
     public delegate void StoppedSpawning();
     public event StoppedSpawning StoppedSpawningObjects;
 
-    public List<EnemyScriptableObject> SpawnedObjects = new List<EnemyScriptableObject>();
+    public List<GameObject> SpawnedObjects = new List<GameObject>();
     public void SpawnGroup(Group group)
     {
         StartCoroutine(SpawnObject(group.Object, group.NumObjects));
@@ -23,24 +23,11 @@ public class Spawner : MonoBehaviour
         {
             yield return new WaitForSeconds(TimeBetweenSpawning);
             numSpawned++;
-            EnemyToSpawn.Spawn(transform, this, Path);
-            SpawnedObjects.Add(EnemyToSpawn);
+            SpawnedObjects.Add(EnemyToSpawn.Spawn(transform, this, Path, this));
             // Initialize Enemy Data with Interface.
         }
 
         numSpawned = 0; // Reset.
         StoppedSpawningObjects?.Invoke();
     }
-
-
-
-    #region EnemyScriptableObjectHandling
-    private void Update() 
-    {
-        foreach(EnemyScriptableObject enemy in SpawnedObjects)
-        {
-            enemy.Move();
-        }
-    }
-    #endregion
 }

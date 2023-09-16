@@ -60,7 +60,7 @@ public class GridManager : MonoBehaviour
         List<Vector3> path = new List<Vector3>();
         foreach (Vector2Int point in cellPoints)
         {
-            path.Add(new Vector3(point.x, 0f, point.y));
+            path.Add(new Vector3(point.x, 1f, point.y));
         }
         WaveManager.EnemySpawner.Path = path;
         WaveManager.enabled = true;

@@ -184,7 +184,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   TimeBetweenSpawning: 1
-  SpawnPoint: {x: 0, y: 0, z: 0}
+  Path: []
   SpawnedObjects: []
 --- !u!1 &705507993
 GameObject:
