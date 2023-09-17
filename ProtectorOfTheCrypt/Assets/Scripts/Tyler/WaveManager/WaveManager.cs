@@ -42,6 +42,8 @@ public class WaveManager : MonoBehaviour
             StoryMode storyMode = GameManager.instance.GameMode as StoryMode;
             storyMode.waveManager = this;
         }
+
+        gameObject.SetActive(false);
     }
 
     

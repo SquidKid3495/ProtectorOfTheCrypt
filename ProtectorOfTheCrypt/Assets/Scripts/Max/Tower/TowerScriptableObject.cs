@@ -50,7 +50,7 @@ public class TowerScriptableObject : ScriptableObject
         LastShootTime = 0;
         TrailPool = new ObjectPool<TrailRenderer>(CreateTrail);
 
-        BulletPool = ObjectPool.CreateInstance(ProjectileConfig.BulletPrefab.GetComponent<PoolableObject>(), 10);
+        BulletPool = ObjectPool.CreateInstance(ProjectileConfig.BulletPrefab.GetComponent<PoolableObject>(), 1);
 
         ProjectileSpawnpoint = Model.transform.Find("ProjectileSpawnpoint").gameObject;
 
@@ -94,12 +94,10 @@ public class TowerScriptableObject : ScriptableObject
 
     private void DoProjectileShoot(Vector3 ShootDirection)
     {
-        Bullet bullet = BulletPool.GetObject().GetComponent<Bullet>();
-        bullet.gameObject.SetActive(true);
+        Bullet bullet = Instantiate(ProjectileConfig.BulletPrefab).GetComponent<Bullet>();
         bullet.OnCollision += HandleBulletCollision;
         bullet.transform.position = ShootSystem.transform.position;
         bullet.Spawn(ProjectileConfig.BulletSpeed,closestEnemy.transform, ProjectileConfig.DamageType);
-
         /*TrailRenderer trail = TrailPool.Get();
         if(trail != null)
         {
@@ -109,6 +107,12 @@ public class TowerScriptableObject : ScriptableObject
             trail.gameObject.SetActive(true);
         }*/
     }
+        /* Object Pooling Projectile
+        Bullet bullet = BulletPool.GetObject().GetComponent<Bullet>();
+        bullet.gameObject.SetActive(true);
+        bullet.OnCollision += HandleBulletCollision;
+        bullet.transform.position = ShootSystem.transform.position;
+        bullet.Spawn(ProjectileConfig.BulletSpeed,closestEnemy.transform, ProjectileConfig.DamageType);*/
 
     private void FindClosestEnemy(out Vector3 directionToEnemy, out bool targetInRange)
     {

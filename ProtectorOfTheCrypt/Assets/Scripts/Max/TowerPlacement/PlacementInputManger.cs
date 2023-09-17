@@ -17,7 +17,7 @@ public class PlacementInputManger : MonoBehaviour
         RaycastHit hit;
         if(Physics.Raycast(ray, out hit, 100, placementLayerMask))
         {
-            lastPosition = hit.point;
+            lastPosition = hit.transform.position;
         }
         return lastPosition;
     }

@@ -6,7 +6,11 @@ public class GridManager : MonoBehaviour
 {
     public int gridWidth = 10;
     public int gridHeight = 8;
+
+    [Tooltip("The lower the Min Path Length, the less Variation.")]
     public int minPathLength = 15;
+    [Tooltip("The Max Path Length should be at least double the Grid Width, otherwise you might crash the application.")]
+    public int maxPathLength = 40;
 
     /// <Summary> Enemy Manager relays the information from the grid and gives it to the enemies</Summary>
     private WaveManager WaveManager;
@@ -17,8 +21,22 @@ public class GridManager : MonoBehaviour
     public GridCellScriptableObject[] sceneryCellObjects;
 
     private PathGenerator pathGenerator;
-
-    void Start()
+    
+    private void Awake()
+    {
+        // If the seed script is there, and the seed script's PickRandomSeed value is false:
+        // Set the values of the grid/path to those saved in the MapVariables class.
+        Seed seedScript = gameObject.GetComponent<Seed>();
+        if(seedScript == null)
+            return;
+        if(seedScript.pickRandomSeed)
+            return;
+        gridWidth = seedScript.mapLevels.mapVariablesList[0].GridWidth;
+        gridHeight = seedScript.mapLevels.mapVariablesList[0].GridHeight;
+        minPathLength = seedScript.mapLevels.mapVariablesList[0].MinPathLength;
+        maxPathLength = seedScript.mapLevels.mapVariablesList[0].MaxPathLength;
+    }
+    private void Start()
     {
         pathGenerator = new PathGenerator(gridWidth, gridHeight);
         WaveManager = GetComponent<WaveManager>();
@@ -37,7 +55,7 @@ public class GridManager : MonoBehaviour
         while (pathGenerator.GenerateCrossroads())
             pathSize = pathCells.Count;
 
-        while (pathSize < minPathLength)
+        while (pathSize < minPathLength || pathSize > maxPathLength)
         {
             pathCells = pathGenerator.GeneratePath();
             while (pathGenerator.GenerateCrossroads())
@@ -76,6 +94,7 @@ public class GridManager : MonoBehaviour
             GameObject pathTileCell = Instantiate(pathTile, new Vector3(pathCell.x, 0f, pathCell.y), Quaternion.identity);
             pathTileCell.transform.parent = transform;
             pathTileCell.transform.Rotate(0f, pathCellObjects[neighborValue].yRotation, 0f);
+            pathTileCell.transform.GetChild(0).gameObject.tag = "Enviornment";
             yield return null;
         }
         yield return null;
@@ -93,6 +112,7 @@ public class GridManager : MonoBehaviour
                     GameObject sceneryTileCell = Instantiate(sceneryCellObjects[randomCellIndex].cellPrefab, new Vector3(x, 0f, y), Quaternion.identity);
                     sceneryTileCell.transform.parent = transform;
                     sceneryTileCell.transform.GetChild(0).gameObject.layer = LayerMask.NameToLayer("Enviornment");
+                    sceneryTileCell.transform.GetChild(0).gameObject.tag = "Enviornment";
                     yield return null;
                 }
             }

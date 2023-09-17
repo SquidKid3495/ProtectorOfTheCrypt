@@ -89,5 +89,6 @@ public class Bullet : MonoBehaviour
         isTracking = false;
         target = null;
         OnCollision = null;
+        Destroy(gameObject);
     }
 }
