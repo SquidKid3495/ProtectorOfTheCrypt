@@ -9,7 +9,7 @@ public class PlacementInputManger : MonoBehaviour
 
     [SerializeField] private LayerMask placementLayerMask;
 
-    public Vector3 GetSelectedMapPosition()
+    public (Vector3, RaycastHit) GetSelectedMapPosition()
     {
         Vector3 mousePos = Input.mousePosition;
         mousePos.z = sceneCamaera.nearClipPlane;
@@ -19,6 +19,6 @@ public class PlacementInputManger : MonoBehaviour
         {
             lastPosition = hit.transform.position;
         }
-        return lastPosition;
+        return (lastPosition, hit);
     }
 }

@@ -13,6 +13,9 @@ public class PlacementSystem : MonoBehaviour
 
     private bool towerCurrentlySelected = false;
 
+    // This allows the script to change the layer of the gridspace where a tower was placed, preventing another tower from being placed on that gridspace
+    private RaycastHit hit;
+
     private void Update() 
     {
         if(Input.GetKeyDown(KeyCode.Mouse0) && towerCurrentlySelected == false)
@@ -26,7 +29,8 @@ public class PlacementSystem : MonoBehaviour
 
         if(currentTowerModel != null)
         {
-            Vector3 mousePosition = placementInputManger.GetSelectedMapPosition();
+            Vector3 mousePosition = Vector3.zero;
+            (mousePosition, hit) = placementInputManger.GetSelectedMapPosition();
             Vector3Int gridPosition = grid.WorldToCell(mousePosition);
             currentTowerModel.transform.position = grid.CellToWorld(gridPosition);
         }
@@ -80,5 +84,6 @@ public class PlacementSystem : MonoBehaviour
         currentTowerModel = null;
         currentTowerScriptableObject = null;
         towerCurrentlySelected = false;
+        hit.transform.gameObject.layer = LayerMask.NameToLayer("Default");
     }
 }
