@@ -149,7 +149,7 @@ public class TowerScriptableObject : ScriptableObject
         }
 
         Bullet.gameObject.SetActive(false);
-        BulletPool.ReturnObjectToPool(Bullet.GetComponent<PoolableObject>());
+        Bullet.OnCollision -= HandleBulletCollision;
 
         if(Collision != null)
         {
