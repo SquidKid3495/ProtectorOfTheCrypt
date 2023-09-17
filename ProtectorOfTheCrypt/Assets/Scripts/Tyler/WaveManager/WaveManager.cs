@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using System.Linq;
+using System;
 
 public class WaveManager : MonoBehaviour
 {
@@ -24,44 +25,39 @@ public class WaveManager : MonoBehaviour
     }
     public List<Wave> WavesToSpawn = new List<Wave>();
     public Wave CurrentWave;
-    private int CurrentWaveCount = -1;
+    [HideInInspector]
+    public int CurrentWaveCount = -1;
 
-    public enum SpawnState { SPAWNING, WAITING, GRACE_PERIOD};
-    public SpawnState state = SpawnState.SPAWNING;
+    public enum SpawnState { SPAWNING, WAITING, FINISHED};
+    public SpawnState state = SpawnState.WAITING;
 
-
-    private float searchCountdown = 1f;
 
     private void Awake()
     {
         EnemySpawner = GetComponent<Spawner>();
-        EnemySpawner.StoppedSpawningObjects += () => SetToWait();
+        EnemySpawner.StoppedSpawningObjects += () => WaveCompleted();
+
+        if(GameManager.instance.GameMode is StoryMode)
+        {
+            StoryMode storyMode = GameManager.instance.GameMode as StoryMode;
+            storyMode.waveManager = this;
+        }
     }
+
+    
 
     private void OnEnable()
     {
         SpawnWave();
     }
 
-    private void Update()
+    private void OnDisable()
     {
-        HandleWaves();
-    }
-
-    private void HandleWaves()
-    {
-        if (state == SpawnState.WAITING)
-        {
-            if (WaveOver())
-            {
-                WaveCompleted();
-            }
-        }
+        EnemySpawner.StoppedSpawningObjects -= () => WaveCompleted();
     }
 
     private void SpawnWave()
     {
-        EnemySpawner.SpawnedObjects.Clear();
         CurrentWave = WavesToSpawn[++CurrentWaveCount];
 
         state = SpawnState.SPAWNING;
@@ -69,26 +65,22 @@ public class WaveManager : MonoBehaviour
 
         WaveStartDisplay?.Invoke();
     }
-    private void SetToWait()
-    {
-        state = SpawnState.WAITING;
-    }
+
     private void WaveCompleted()
     {
-        state = SpawnState.GRACE_PERIOD;
-        Invoke(nameof(SpawnWave), CurrentWave.TimeUntilNextWave);
-    }
-    public bool WaveOver()
-    {
-        searchCountdown -= Time.deltaTime;
-        if (searchCountdown <= 0f)
+        WaveEndDisplay?.Invoke();
+
+        if (CurrentWaveCount + 1 >= WavesToSpawn.Count)
         {
-            searchCountdown = 1f;
-            if (EnemySpawner.SpawnedObjects.Count() == 0)
-            {
-                return true;
-            }
+            state = SpawnState.FINISHED; 
+            return;
         }
-        return false;
+        else
+        {
+            state = SpawnState.WAITING;
+        }
+
+        Invoke(nameof(SpawnWave), CurrentWave.TimeUntilNextWave);
+        
     }
 }
