@@ -15,11 +15,11 @@ public class PlacementSystem : MonoBehaviour
 
     private void Update() 
     {
-        if(Input.GetKeyDown(KeyCode.Space) && towerCurrentlySelected == false)
+        if(Input.GetKeyDown(KeyCode.Mouse0) && towerCurrentlySelected == false)
         {
             SelectTower("ExampleTower");
         }
-        else if(Input.GetKeyDown(KeyCode.Space) && towerCurrentlySelected == true)
+        else if(Input.GetKeyDown(KeyCode.Mouse0) && towerCurrentlySelected == true)
         {
             SetTowerDown();
         }
