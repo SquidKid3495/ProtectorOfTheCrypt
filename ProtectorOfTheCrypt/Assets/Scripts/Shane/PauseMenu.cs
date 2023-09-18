@@ -16,20 +16,20 @@ public class PauseMenu : MonoBehaviour
 
     public void Pause()
     {
-        PausePanel.SetActive(true); //Pause Menu displays
-        Time.timeScale = 0;         //Stops game
+        PausePanel.SetActive(true);                                     //Pause Menu displays
+        Time.timeScale = 0;                                             //Stops game
         IGButtons.GetComponent<UIButtons>().UIButton.SetActive(false);  //Stops in game UI buttons disappear via UIButtons.cs
     }
 
     public void Continue()
     {
-        PausePanel.SetActive(false);    //Pause menu goes away
-        Time.timeScale = 1;             //Game resumes
-        IGButtons.GetComponent<UIButtons>().UIButton.SetActive(true); //Makes in game UI buttons appear via UIButtons.cs
+        PausePanel.SetActive(false);                                    //Pause menu goes away
+        Time.timeScale = 1;                                             //Game resumes
+        IGButtons.GetComponent<UIButtons>().UIButton.SetActive(true);   //Makes in game UI buttons appear via UIButtons.cs
     }
 
     public void MainMenu()
     {
-        SceneManager.LoadScene("MainMenuScene");
+        SceneManager.LoadScene("MainMenuScene");                        //Load Main Menu Scene
     }
 }
