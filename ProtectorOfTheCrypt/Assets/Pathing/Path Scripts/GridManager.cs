@@ -67,8 +67,8 @@ public class GridManager : MonoBehaviour
 
     private IEnumerator CreateGrid(List<Vector2Int> pathCells)
     {
-        yield return LayPathCells(pathCells);
-        yield return LaySceneryCells();
+        LayPathCells(pathCells);
+        LaySceneryCells();
 
         //EnemyManager.SetPathCell(pathGenerator.GenerateRoute());
         List<Vector2Int> cellPoints = pathGenerator.GenerateRoute();
@@ -83,7 +83,7 @@ public class GridManager : MonoBehaviour
         WaveManager.enabled = true;
     }
 
-    private IEnumerator LayPathCells(List<Vector2Int> pathCells)
+    private void LayPathCells(List<Vector2Int> pathCells)
     {
         foreach(Vector2Int pathCell in pathCells)
         {
@@ -95,12 +95,12 @@ public class GridManager : MonoBehaviour
             pathTileCell.transform.parent = transform;
             pathTileCell.transform.Rotate(0f, pathCellObjects[neighborValue].yRotation, 0f);
             pathTileCell.transform.GetChild(0).gameObject.tag = "Enviornment";
-            yield return null;
+            //yield return null;
         }
-        yield return null;
+        //yield return null;
     }
 
-    private IEnumerator LaySceneryCells()
+    private void LaySceneryCells()
     {
         for(int x = 0; x < gridWidth; x++)
         {
@@ -113,7 +113,7 @@ public class GridManager : MonoBehaviour
                     sceneryTileCell.transform.parent = transform;
                     sceneryTileCell.transform.GetChild(0).gameObject.layer = LayerMask.NameToLayer("Enviornment");
                     sceneryTileCell.transform.GetChild(0).gameObject.tag = "Enviornment";
-                    yield return null;
+                    //yield return null;
                 }
             }
         }
