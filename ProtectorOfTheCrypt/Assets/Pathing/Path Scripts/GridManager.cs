@@ -24,6 +24,7 @@ public class GridManager : MonoBehaviour
     
     private void Awake()
     {
+        Camera.main.transform.position = Vector3.zero + new Vector3(gridWidth / 2, (gridHeight * 2) / 4, -gridHeight / 3);
         // If the seed script is there, and the seed script's PickRandomSeed value is false:
         // Set the values of the grid/path to those saved in the MapVariables class.
         Seed seedScript = gameObject.GetComponent<Seed>();
@@ -35,6 +36,7 @@ public class GridManager : MonoBehaviour
         gridHeight = seedScript.mapLevels.mapVariablesList[0].GridHeight;
         minPathLength = seedScript.mapLevels.mapVariablesList[0].MinPathLength;
         maxPathLength = seedScript.mapLevels.mapVariablesList[0].MaxPathLength;
+        Camera.main.transform.position = Vector3.zero + new Vector3(gridWidth / 2, (gridHeight * 2) / 4, -gridHeight / 3);
     }
     private void Start()
     {
