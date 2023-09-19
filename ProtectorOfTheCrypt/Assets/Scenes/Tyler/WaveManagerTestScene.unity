@@ -123,55 +123,6 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
---- !u!1 &6617397 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 6024401304573393066, guid: 39ab09966e46e1746b6ba55120933348, type: 3}
-  m_PrefabInstance: {fileID: 1281235887}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &6617405
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6617397}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ec5e766c61b9f254ca98f820ed287516, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  EnemySpawner: {fileID: 6617406}
-  WavesToSpawn:
-  - EnemyGroup:
-      Object: {fileID: 6515847600427611109, guid: 1faf7c4e3b3d024469dde60f701755b1, type: 3}
-      NumObjects: 5
-    TimeUntilNextWave: 4.2
-  - EnemyGroup:
-      Object: {fileID: 6515847600427611109, guid: 1faf7c4e3b3d024469dde60f701755b1, type: 3}
-      NumObjects: 10
-    TimeUntilNextWave: 1.7
-  CurrentWave:
-    EnemyGroup:
-      Object: {fileID: 0}
-      NumObjects: 0
-    TimeUntilNextWave: 0
-  CurrentWaveCount: -1
-  state: 0
---- !u!114 &6617406
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6617397}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 40a24768472cd994ca8d1b16aba5fc98, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  TimeBetweenSpawning: 2
-  Path: []
-  SpawnedObjects: []
 --- !u!1 &375354476
 GameObject:
   m_ObjectHideFlags: 0
@@ -181,8 +132,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 375354478}
-  - component: {fileID: 375354477}
   - component: {fileID: 375354479}
+  - component: {fileID: 375354480}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -190,19 +141,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &375354477
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 375354476}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 970884cf3bd93e742af81885576a4ef9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  state: 0
 --- !u!4 &375354478
 Transform:
   m_ObjectHideFlags: 0
@@ -231,6 +169,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   waveManager: {fileID: 0}
+--- !u!114 &375354480
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 375354476}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 970884cf3bd93e742af81885576a4ef9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GameMode: {fileID: 0}
 --- !u!1 &705507993
 GameObject:
   m_ObjectHideFlags: 0
@@ -504,11 +455,5 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 6024401304573393066, guid: 39ab09966e46e1746b6ba55120933348, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 6617406}
-    - targetCorrespondingSourceObject: {fileID: 6024401304573393066, guid: 39ab09966e46e1746b6ba55120933348, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 6617405}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 39ab09966e46e1746b6ba55120933348, type: 3}
