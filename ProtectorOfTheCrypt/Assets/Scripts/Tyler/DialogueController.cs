@@ -51,7 +51,7 @@ public class DialogueController : MonoBehaviour
         DialogueStarted?.Invoke();
 
         dialogueCanvasGroup.alpha = 1f;
-        dialogueCanvasGroup.blocksRaycasts = false;
+        dialogueCanvasGroup.blocksRaycasts = true;
         dialogueText.text = "";
         sentences.Clear();
 
@@ -138,7 +138,7 @@ public class DialogueController : MonoBehaviour
     public void CloseDialogueBox()
     {
         dialogueCanvasGroup.alpha = 0f;
-        dialogueCanvasGroup.blocksRaycasts = true;
+        dialogueCanvasGroup.blocksRaycasts = false;
         DialogueOver?.Invoke();
     }
 }

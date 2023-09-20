@@ -5,18 +5,10 @@ using UnityEngine.UI;
 
 public class SkipButton : MonoBehaviour
 {
-	public Button yourButton;
-
-	void Start()
-	{
-		Button btn = yourButton.GetComponent<Button>();
-		btn.onClick.AddListener(TaskOnClick);
-	}
-
-	void TaskOnClick()
+	public void SkipDialogue()
 	{
 		StoryMode storyMode = GameManager.instance.GameMode as StoryMode;
-
+		Debug.Log("test da thing");
 		storyMode.DialogueController.EndText(); // Closes Dialogue Box and resumes game.
 	}
 }

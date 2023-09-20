@@ -9,6 +9,11 @@ public class StoryMode : GameMode
     public WaveManager waveManager;
     public DialogueController DialogueController;
 
+    public void Awake()
+    {
+        DialogueController = GetComponent<DialogueController>();
+    }
+
     public override bool CheckGameWon()
     {
         return waveManager.state == WaveManager.SpawnState.FINISHED

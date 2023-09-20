@@ -46,6 +46,12 @@ public class WaveManager : MonoBehaviour
         EnemySpawner.StoppedSpawningObjects += () => WaveCompleted();
         GameManager.instance.OnGamePaused += (bool pause) => PauseSpawning(pause);
         SpawnWave();
+
+        if(GameManager.instance.GameMode is StoryMode)
+        {
+            StoryMode storyMode = GameManager.instance.GameMode as StoryMode;
+            storyMode.waveManager = this;
+        }
     }
 
     private void OnDisable()
