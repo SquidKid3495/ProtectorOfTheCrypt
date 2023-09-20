@@ -12,3 +12,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e219f45c141688340b0e8780c4561af6, type: 3}
   m_Name: Maps
   m_EditorClassIdentifier: 
+  mapVariablesList:
+  - Seed: CLGDDBLIGEMPHCJJ
+    GridWidth: 40
+    GridHeight: 35
+    MinPathLength: 50
+    MaxPathLength: 120
+  - Seed: BANAHNLAELLHNOAA
+    GridWidth: 40
+    GridHeight: 35
+    MinPathLength: 80
+    MaxPathLength: 190
+  - Seed: EOCLIJAIOMCDAIAE
+    GridWidth: 40
+    GridHeight: 35
+    MinPathLength: 80
+    MaxPathLength: 190
+  - Seed: HNMEKANKBKNCCFGA
+    GridWidth: 40
+    GridHeight: 35
+    MinPathLength: 80
+    MaxPathLength: 190

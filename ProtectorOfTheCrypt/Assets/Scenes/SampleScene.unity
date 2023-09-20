@@ -153,6 +153,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   GameMode: {fileID: 0}
+  isPaused: 0
 --- !u!4 &152358334
 Transform:
   m_ObjectHideFlags: 0
@@ -424,11 +425,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6024401304573393069, guid: 39ab09966e46e1746b6ba55120933348, type: 3}
       propertyPath: maxPathLength
-      value: 100
+      value: 190
       objectReference: {fileID: 0}
     - target: {fileID: 6024401304573393069, guid: 39ab09966e46e1746b6ba55120933348, type: 3}
       propertyPath: minPathLength
-      value: 40
+      value: 80
       objectReference: {fileID: 0}
     - target: {fileID: 7870458464043887178, guid: 39ab09966e46e1746b6ba55120933348, type: 3}
       propertyPath: WavesToSpawn.Array.data[0].EnemyGroup.NumObjects
