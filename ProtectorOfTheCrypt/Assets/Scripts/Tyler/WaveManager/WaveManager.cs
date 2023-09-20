@@ -30,38 +30,29 @@ public class WaveManager : MonoBehaviour
     [HideInInspector]
     public int CurrentWaveCount = -1;
 
-    public enum SpawnState { SPAWNING, WAITING, FINISHED, HALTED};
+    public enum SpawnState { SPAWNING, WAITING, FINISHED, HALTED };
     public SpawnState state = SpawnState.WAITING;
 
 
     private void Awake()
     {
         EnemySpawner = GetComponent<Spawner>();
-        EnemySpawner.StoppedSpawningObjects += () => WaveCompleted();
-
-        DialogueController.DialogueOver += () => Resume();
-        DialogueController.DialogueStarted += () => Halt();
-
-        gameObject.SetActive(false);
     }
 
     
 
     private void OnEnable()
     {
+        EnemySpawner.StoppedSpawningObjects += () => WaveCompleted();
+        GameManager.instance.OnGamePaused += (bool pause) => PauseSpawning(pause);
         SpawnWave();
     }
 
     private void OnDisable()
     {
         EnemySpawner.StoppedSpawningObjects -= () => WaveCompleted();
+        GameManager.instance.OnGamePaused -= (bool pause) => PauseSpawning(pause);
 
-        if (GameManager.instance.GameMode is StoryMode)
-        {
-            DialogueController.DialogueOver -= () => Resume();
-            DialogueController.DialogueStarted -= () => Halt();
-
-        }
     }
 
     private void SpawnWave()
@@ -74,22 +65,20 @@ public class WaveManager : MonoBehaviour
         WaveStartDisplay?.Invoke();
     }
 
-    private void Halt()
+    private void PauseSpawning(bool hasPaused)
     {
-        state = SpawnState.HALTED;
-        Debug.Log("Halting Wave Manager!");
+        if (hasPaused)
+            state = SpawnState.HALTED;
+        else
+            SpawnWave();
     }
 
-    private void Resume()
-    {
-
-        Invoke(nameof(SpawnWave), CurrentWave.TimeUntilNextWave);
-    }
-    
     private void WaveCompleted()
     {
         WaveEndDisplay?.Invoke();
-        if(state == SpawnState.HALTED) { return; }
+
+        if (state == SpawnState.HALTED)
+            return;
 
         if (CurrentWaveCount + 1 >= WavesToSpawn.Count)
         {

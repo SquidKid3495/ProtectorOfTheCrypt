@@ -46,6 +46,8 @@ public class DialogueController : MonoBehaviour
     {
         if (wave.Dialogue is null) return;
 
+        GameManager.instance.GamePaused(true);
+
         DialogueStarted?.Invoke();
 
         dialogueCanvasGroup.alpha = 1f;
@@ -129,6 +131,7 @@ public class DialogueController : MonoBehaviour
         Debug.Log("EndText Called");
         dialogueText.text = "";
         sentences.Clear();
+        GameManager.instance.GamePaused(false);
         CloseDialogueBox();
     }
 
