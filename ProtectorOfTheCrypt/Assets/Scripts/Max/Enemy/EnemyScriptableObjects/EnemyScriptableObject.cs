@@ -12,7 +12,6 @@ public class EnemyScriptableObject : ScriptableObject
     public WeaknessScriptableObject ElementType;
     public float WeaknessDamageMultiplier = 1.5f;
 
-    private bool CanMove = true;
     private MonoBehaviour ActiveMonoBehaviour;
     private GameObject Model;
     private List<Vector3> Path = new List<Vector3>();

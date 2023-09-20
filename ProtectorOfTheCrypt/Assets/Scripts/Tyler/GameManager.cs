@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
+    public event Action<bool> OnGamePaused;
     public static GameManager instance;
 
     public GameMode GameMode;
@@ -32,4 +33,8 @@ public class GameManager : MonoBehaviour
         Money -= SpentMoney;
     }
 
+    public void GamePaused(bool isPaused)
+    {
+        OnGamePaused?.Invoke(isPaused);
+    }
 }

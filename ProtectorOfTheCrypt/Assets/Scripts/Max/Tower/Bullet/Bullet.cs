@@ -23,14 +23,22 @@ public class Bullet : MonoBehaviour
     }
     [SerializeField]
     private float DelayedDisableTime = 10f;
-
+    private float elapsedTime = 0f; // If the game gets paused, this freezes the bullets and the timer
     public delegate void CollisionEvent(Bullet Bullet, Collision Collision);
     public event CollisionEvent OnCollision;
+
+    private bool paused;
 
     private void Awake() 
     {
         Rigidbody = GetComponent<Rigidbody>();
         gameObject.layer = LayerMask.NameToLayer("Projectile");
+        GameManager.instance.OnGamePaused += UpdateGamePaused;
+    }
+
+    private void UpdateGamePaused(bool isPaused)
+    {
+        paused = isPaused;
     }
 
     private void Update()
@@ -70,9 +78,20 @@ public class Bullet : MonoBehaviour
     /// </summary>
     /// <param name="Time"></param>
     /// <returns></returns>
-    private IEnumerator DelayedDisable(float Time)
+    private IEnumerator DelayedDisable(float time)
     {
-        yield return new WaitForSeconds(Time);
+        float startTime = Time.time;
+
+        while (elapsedTime < time)
+        {
+            if (!paused)
+            {
+                // Perform some actions here.
+                elapsedTime = Time.time - startTime;
+            }
+
+            yield return null; // Yielding null means the coroutine will run in the same frame.
+        }
         OnCollisionEnter(null);
     }
 
@@ -90,5 +109,9 @@ public class Bullet : MonoBehaviour
         target = null;
         OnCollision = null;
         Destroy(gameObject);
+    }
+    private void OnDestroy()
+    {
+        GameManager.instance.OnGamePaused -= UpdateGamePaused;
     }
 }

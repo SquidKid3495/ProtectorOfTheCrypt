@@ -430,6 +430,10 @@ PrefabInstance:
       propertyPath: minPathLength
       value: 40
       objectReference: {fileID: 0}
+    - target: {fileID: 7870458464043887178, guid: 39ab09966e46e1746b6ba55120933348, type: 3}
+      propertyPath: WavesToSpawn.Array.data[0].EnemyGroup.NumObjects
+      value: 2
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
